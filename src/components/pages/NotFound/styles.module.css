@@ -1,0 +1,6 @@
+.NotFound {
+  color: red;
+  background-color: gainsboro;
+  text-align: center;
+  border: 3px solid black;
+}

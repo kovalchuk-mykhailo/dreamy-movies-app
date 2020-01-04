@@ -1,8 +1,9 @@
 import React from 'react';
+import styles from './styles.module.css';
 
 function Movie() {
     return (
-        <div className="MoviePage">
+        <div className={styles.MoviePage}>
             <h1>
                 Movie Page
             </h1>
