@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-function Movie(props) {
+function MovieDetails(props) {
     return (
         <div className={styles.MoviePage}>
             <h1>
@@ -11,4 +11,4 @@ function Movie(props) {
     )
 }
 
-export default Movie;
+export default MovieDetails;
