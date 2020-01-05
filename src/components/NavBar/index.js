@@ -3,17 +3,17 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 
-const NavBar = (props) => {
+function NavBar(props) {
   return (
     <div>
       <AppBar position="static">
         <Toolbar>
-          <Typography variant="title" color="white">
+          <Typography variant="h5" style={{ color: "white" }}>
             {props.text}
           </Typography>
         </Toolbar>
       </AppBar>
-    </div>
+    </div >
   )
 }
 export default NavBar;
