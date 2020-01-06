@@ -7,13 +7,13 @@ import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 import MovieClient from '../../utils/MovieClient'
 
-const MovieCard = ({ movie, handleClick }) => {
-  const { title, poster_path, overview } = movie;
+const MovieCard = ({ movie, handleClick, genres }) => {
+  const { title, poster_path } = movie;
   const url = MovieClient.imageBaseUrl.concat(poster_path);
   return (
     <div>
-      {movie && (
-        <Card /* style={{ margin: "5px" }} */>
+      {title && (
+        <Card>
           <CardMedia style={{ height: 0, paddingTop: '56.25%' }}
             image={url}
             title={title}
@@ -22,8 +22,8 @@ const MovieCard = ({ movie, handleClick }) => {
             <Typography gutterBottom variant="h6" >
               {title}
             </Typography>
-            <Typography component="p">
-              {overview}
+            <Typography variant="caption" >
+              {genres}
             </Typography>
           </CardContent>
           <CardActions>

@@ -7,7 +7,7 @@ function NavBar(props) {
   return (
     <div>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar >
           <Typography variant="h5" style={{ color: "white" }}>
             {props.text}
           </Typography>

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import Grid from '@material-ui/core/Grid';
 import MovieClient from '../../../utils/MovieClient';
-import MovieCard from '../../MovieCard';
 import { Button } from '@material-ui/core';
+import ListMovies from '../../ListMovies';
 
 const API_KEY_V3 = "1797a669073ee6692129206af1164a2d";
-const client = new MovieClient(API_KEY_V3);
+const movieClient = new MovieClient(API_KEY_V3);
+const genres = [];
+const defaultLanguage = "en-US";
 
 class Home extends Component {
 
@@ -19,9 +20,13 @@ class Home extends Component {
 		}
 	}
 
-	getPopularMovies = async (options) => {
+	getPopularMoviesWithGenres = async (options) => {
 		try {
-			const { page, results: movies } = await client.getPopularMovies(options);
+			const { page, results: movies } = await movieClient.getPopularMovies(options);
+			if (!genres.length) {
+				const { genres: responseGenres } = await movieClient.getGenreList(defaultLanguage);
+				genres.push(...responseGenres);
+			}
 			this.setState({
 				movies: this.state.movies.slice().concat(movies),
 				isLoaded: true,
@@ -34,14 +39,14 @@ class Home extends Component {
 
 	getDafaultOptions = () => {
 		return {
-			language: "",
+			language: defaultLanguage,
 			page: this.state.pages + 1,
 			region: "",
 		}
 	}
 
 	componentDidMount() {
-		this.getPopularMovies(this.getDafaultOptions());
+		this.getPopularMoviesWithGenres(this.getDafaultOptions());
 	}
 
 	navigateToMovie = (movieId) => () => {
@@ -51,24 +56,18 @@ class Home extends Component {
 	render() {
 		return (
 			<div>
-				{this.state.movies && (
-					<div style={{ backgroundColor: "#edf0f5" }}>
-						<Grid container spacing={2} style={{ padding: 20 }}>
-							{this.state.movies.map(currentMovie => (
-								<Grid key={currentMovie.id}
-									item xs={12} sm={6} lg={4} xl={3}
-								>
-									<MovieCard movie={currentMovie} handleClick={this.navigateToMovie(currentMovie.id)} />
-								</Grid>
-							))}
-						</Grid>
-					</div>
-				)}
+				{this.state.movies.length ? (
+					<ListMovies movies={this.state.movies}
+						genres={genres}
+						history={this.props.history}
+					/>) : null
+				}
 				<Button variant="contained"
 					color="primary"
 					size="large"
-					fullWidth="true"
-					onClick={() => this.getPopularMovies(this.getDafaultOptions())}
+					fullWidth={true}
+					style={{ marginTop: "10px", marginBottom: "10px" }}
+					onClick={() => this.getPopularMoviesWithGenres(this.getDafaultOptions())}
 				>
 					Get more
 				</Button>
