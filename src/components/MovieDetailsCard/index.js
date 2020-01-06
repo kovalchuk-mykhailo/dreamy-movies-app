@@ -16,11 +16,20 @@ const styles = {
     color: "black",
     backgroundColor: "gold",
     fontSize: "20px",
+  },
+  cardMedia: {
+    maxHeight: '70vh',
+    width: "100%",
   }
 }
 
+const getYearFromDateString = (dateString) => {
+  return (new Date(dateString)).getFullYear()
+}
+
 function MovieDetailsCard(props) {
-  const { title, poster_path, genres, overview, vote_average } = props.movie;
+  const { title, poster_path, genres, overview, vote_average, release_date } = props.movie;
+  const releaseYear = getYearFromDateString(release_date);
   const genresNames = genres.map(genre => genre.name).join("/");
   const url = MovieClient.imageBaseUrl.concat(poster_path);
 
@@ -32,10 +41,7 @@ function MovieDetailsCard(props) {
             component="img"
             image={url}
             title={title}
-            style={{
-              maxHeight: '70vh',
-              width: "100%",
-            }}
+            style={styles.cardMedia}
           />
         </Card>
       </Grid>
@@ -56,6 +62,9 @@ function MovieDetailsCard(props) {
           </Typography>
           <Typography variant="body1" style={styles.borderBottom}>
             <b>Description: </b>{overview}
+          </Typography>
+          <Typography variant="body1" style={styles.borderBottom}>
+            <b>Release year: </b>{releaseYear}
           </Typography>
         </CardContent>
       </Grid>

@@ -8,7 +8,10 @@ const movieClient = new MovieClient(API_KEY_V3);
 const styles = {
   divBack: {
     backgroundColor: "#edf0f5"
-  }
+  },
+  container: {
+    padding: 20
+  },
 }
 function ListMovies(props) {
   const { movies, genres } = props;
@@ -18,7 +21,7 @@ function ListMovies(props) {
 
   return (
     <div style={styles.divBack}>
-      <Grid container spacing={2} style={{ padding: 20 }}>
+      <Grid container spacing={2} style={styles.container}>
         {movies.map(currentMovie => (
           <Grid key={currentMovie.id}
             item xs={12} sm={6} lg={4} xl={3}

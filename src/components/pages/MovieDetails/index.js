@@ -17,7 +17,7 @@ class MovieDetails extends Component {
 		this.state = {
 			movie: {},
 			isLoaded: false,
-			similarMovies: []
+			similarMovies: [],
 		}
 	}
 
@@ -35,23 +35,33 @@ class MovieDetails extends Component {
 
 	getPopularSimilarWithGenres = async (movieID, language, page) => {
 		try {
-			console.log("hello")
 			const { results: movies } = await movieClient.getSimilarMovies(movieID, language, page);
 			if (!genres.length) {
 				const { genres: responseGenres } = await movieClient.getGenreList(defaultLanguage);
 				genres.push(...responseGenres);
 			}
 			this.setState({
-				similarMovies: this.state.similarMovies.slice().concat(movies)
+				similarMovies: movies.slice(),
 			})
 		} catch (error) {
 			console.log(error.message);
 		}
 	}
 
+	getDataFromApi = (movieId, language, page) => {
+		this.getMovieDetails(movieId, language);
+		this.getPopularSimilarWithGenres(movieId, language, page);
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.match.params.movieId !== this.props.match.params.movieId) {
+			window.scrollTo(0, 0);
+			this.getDataFromApi(this.props.match.params.movieId, defaultLanguage, page);
+		}
+	}
+
 	componentDidMount() {
-		this.getMovieDetails(this.movieId, defaultLanguage);
-		this.getPopularSimilarWithGenres(this.movieId, defaultLanguage, page);
+		this.getDataFromApi(this.movieId, defaultLanguage, page);
 	}
 
 	render() {
